@@ -1,7 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const { MongoClient } = require('mongodb');
-
+const bcrypt = require('bcrypt');
 const app = express();
 const port = process.env.PORT || 5000;
 const cors = require('cors');
@@ -39,7 +39,7 @@ app.listen(port, () => {
 
 
   // User Registration API
-app.post('/api/register', bodyParser.json(), async (req, res) => {
+  app.post('/api/register', bodyParser.json(), async (req, res) => {
     try {
       const { name, email, password } = req.body;
   
@@ -53,12 +53,15 @@ app.post('/api/register', bodyParser.json(), async (req, res) => {
         return res.status(400).json({ message: 'Email already registered' });
       }
   
-      // Create a new user document
+      // Hash the password using bcrypt
+      const hashedPassword = await bcrypt.hash(password, 10); // Use 10 rounds of salt for hashing
+  
+      // Create a new user document with the hashed password
       const newUser = {
         name,
         email,
-        password,
-        balance: 0, 
+        password: hashedPassword, // Store the hashed password in the database
+        balance: 0,
         createdAt: new Date(),
         updatedAt: new Date(),
       };
@@ -71,4 +74,5 @@ app.post('/api/register', bodyParser.json(), async (req, res) => {
       return res.status(500).json({ message: 'Internal server error' });
     }
   });
+  
   
