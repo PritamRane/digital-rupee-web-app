@@ -21,8 +21,10 @@
     MONGODB_URI=your-mongodb-connection-uri
 
 
-4. npm start
+4. npm run start:dev
+
 5. frontend will start running on  http://localhost:3000.
+
 6. backend will start running on  http://localhost:5000.
 
 

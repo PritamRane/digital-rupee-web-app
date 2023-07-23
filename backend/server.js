@@ -6,7 +6,6 @@ const app = express();
 const port = process.env.PORT || 5000;
 const cors = require('cors');
 require('dotenv').config();
-// Enable CORS
 app.use(cors());
 
 
@@ -54,9 +53,8 @@ app.listen(port, () => {
       }
   
       // Hash the password using bcrypt
-      const hashedPassword = await bcrypt.hash(password, 10); // Use 10 rounds of salt for hashing
+      const hashedPassword = await bcrypt.hash(password, 10); 
   
-      // Create a new user document with the hashed password
       const newUser = {
         name,
         email,
